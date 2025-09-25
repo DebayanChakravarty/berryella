@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Berryella — Luxury, Nature‑Powered Skincare</title>
+  <meta name="description" content="Berryella crafts luxury skincare rooted in nature—botanical serums, dew‑soft moisturizers, and masks that let your skin breathe and glow." />
+  <link rel="canonical" href="https://berryella.bydeb.in//" />
+  <meta name="theme-color" content="#0c0b0b" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Berryella" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Berryella — Luxury, Nature‑Powered Skincare" />
+  <meta property="og:description" content="Luxury skincare created with botanicals, pure actives, and mindful design." />
+  <meta property="og:url" content="https://berryella.bydeb.in//" />
+  <meta property="og:image" content="https://berryella.bydeb.in//assets/images/og-cover.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Berryella — Luxury, Nature‑Powered Skincare" />
+  <meta name="twitter:description" content="Luxury skincare created with botanicals, pure actives, and mindful design." />
+  <meta name="twitter:image" content="https://berryella.bydeb.in//assets/images/og-cover.jpg" />
+
+  <!-- Instagram (uses Open Graph); optional profile preview -->
+  <meta property="og:profile:username" content="berryella" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="site-header container">
+    <nav class="nav">
+      <a class="logo" href="/">Berryella</a>
+      <ul class="menu">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <h1>Where Nature Meets Luxury</h1>
+        <p>Serums and moisturizers crafted from botanical actives. Clean, elegant, effective.</p>
+        <a class="btn" href="#products">Shop the collection</a>
+      </div>
+      <picture>
+        <img src="/assets/images/hero.jpg" alt="Berryella skincare with botanicals" loading="lazy">
+      </picture>
+    </section>
+
+    <section id="products" class="grid container">
+      <article class="card">
+        <img src="/assets/images/product-1.jpg" alt="Botanical Radiance Serum" loading="lazy" />
+        <h3>Botanical Radiance Serum</h3>
+        <p>Vitamin-rich serum for a dewy glow.</p>
+      </article>
+      <article class="card">
+        <img src="/assets/images/product-2.jpg" alt="Silk Dew Moisturizer" loading="lazy" />
+        <h3>Silk Dew Moisturizer</h3>
+        <p>Featherlight hydration with ceramides.</p>
+      </article>
+      <article class="card">
+        <img src="/assets/images/product-3.jpg" alt="Midnight Calm Mask" loading="lazy" />
+        <h3>Midnight Calm Mask</h3>
+        <p>Overnight mask for bouncy morning skin.</p>
+      </article>
+    </section>
+
+    <section id="story" class="split container">
+      <div>
+        <h2>Our Story</h2>
+        <p>In the quiet heart of nature, beauty is born. We gather the gentlest botanicals and the purest actives to create indulgent routines that truly care for your skin.</p>
+      </div>
+      <div>
+        <img src="/assets/images/story.jpg" alt="Nature-inspired skincare ritual" loading="lazy" />
+      </div>
+    </section>
+
+    <section id="contact" class="contact container">
+      <h2>Get in touch</h2>
+      <form name="contact" method="post" data-netlify="true">
+        <input type="hidden" name="form-name" value="contact" />
+        <label>
+          <span>Name</span>
+          <input name="name" required />
+        </label>
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" required />
+        </label>
+        <label>
+          <span>Message</span>
+          <textarea name="message" rows="4" required></textarea>
+        </label>
+        <button class="btn" type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container small">
+      <p>© <span id="y"></span> Berryella. All rights reserved.</p>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
