@@ -18,7 +18,7 @@ class BerryellaProductSlider extends HTMLElement {
             width:100%; border-radius:var(--radius); overflow:hidden; position:relative;
             box-shadow:0 18px 50px rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.08);
             isolation:isolate; background:#0d0c0c; color:var(--ink);
-            touch-action: pan-y; /* keeps vertical page scroll intact */
+            touch-action: pan-y;
           }
           .stage::before,.stage::after{ content:""; position:absolute; inset:0; z-index:-1 }
           .stage::before{
@@ -35,8 +35,7 @@ class BerryellaProductSlider extends HTMLElement {
           .slide{
             position:relative; display:grid; grid-template-columns: 1fr auto 1fr; align-items:center;
             min-height: 560px; padding: 20px 18px 72px; gap: 0;
-            transition: transform var(--t-fast) ease; /* for swipe snapback */
-            will-change: transform;
+            transition: transform var(--t-fast) ease; will-change: transform;
           }
   
           /* CENTER media */
@@ -53,19 +52,19 @@ class BerryellaProductSlider extends HTMLElement {
                   border:1px solid rgba(255,255,255,.18); color:#fff; font-size:12px; font-weight:700;
                   padding:6px 10px; border-radius:999px; }
   
-          /* LEFT panel (table) */
+          /* LEFT panel (bullets) */
           .panel-left{ grid-column:1; padding: 24px 18px 24px 24px; display:flex; justify-content:center }
           .classify{ width:100%; max-width: 420px; background: rgba(255,255,255,.05);
             border:1px solid rgba(255,255,255,.10); border-radius: 16px; padding: 16px; box-shadow: 0 8px 28px rgba(0,0,0,.25); }
           .classify h3{ margin:0 0 12px; font-size:13px; letter-spacing:.25px; text-transform:uppercase; color:var(--muted) }
-          .tbl{ width:100%; border-collapse: separate; border-spacing:0; background: rgba(0,0,0,.18);
-            border:1px solid rgba(255,255,255,.10); border-radius:12px; overflow:hidden; }
-          .tbl thead th{ text-align:left; font-weight:700; font-size:13px; color:#fff; background: rgba(255,255,255,.10);
-            padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.12); }
-          .tbl tbody td{ font-size:14px; color:var(--ink); padding:10px 12px; border-bottom:1px dashed rgba(255,255,255,.08); vertical-align:top; }
-          .tbl tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.03) }
-          .tbl tbody tr:last-child td{ border-bottom:0 }
-          .tbl .key{ color:var(--muted); width:40% }
+          .bullets{ margin:0; padding:0 0 0 0px; display:grid; gap:8px; }
+          .bullets li{
+            list-style: none;
+            font-size:14px; line-height:1.45; color:var(--ink);
+            background: rgba(0,0,0,.18);
+           
+            border-radius:12px; padding:10px 12px;
+          }
   
           /* RIGHT panel (content + cart) */
           .panel-right{ grid-column:3; padding: 24px 24px 24px 18px; display:flex; justify-content:center }
@@ -116,7 +115,7 @@ class BerryellaProductSlider extends HTMLElement {
             .halo{ border-radius:20px } .bug{ width:84%; height:84% }
             .title{ font-size: clamp(22px, 6vw, 30px) } .meta{ font-size:13px }
             .classify{ max-width:none; padding: 12px }
-            .tbl thead th{ font-size:12px; padding:8px 10px } .tbl tbody td{ font-size:13px; padding:8px 10px }
+            .bullets li{ font-size:13px; padding:8px 10px }
             .cart-btn{ width:100%; padding:12px 0; font-size:14px }
             .btn{ width:38px; height:38px; border-radius:10px } .btn svg{ width:16px; height:16px } .dot{ width:9px; height:9px }
           }
@@ -138,13 +137,10 @@ class BerryellaProductSlider extends HTMLElement {
           <span class="divider" aria-hidden="true"></span>
   
           <div class="slide" part="slide">
-            <!-- LEFT -->
+            <!-- LEFT (Bullet list) -->
             <div class="panel-left">
               <div class="classify">
-                <table class="tbl" aria-label="Classification table">
-                  <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
-                  <tbody id="classBody"></tbody>
-                </table>
+                <ul class="bullets" id="bulletList" role="list"></ul>
               </div>
             </div>
   
@@ -189,7 +185,8 @@ class BerryellaProductSlider extends HTMLElement {
       this.metaEl  = this.$("#meta");
       this.badgeEl = this.$("#badge");
       this.accent  = this.$("#accent");
-      this.classBody = this.$("#classBody");
+      this.bulletList = this.$("#bulletList");
+      this.classTitle = this.$("#classTitle");
       this.prevBtn = this.$("#prevBtn");
       this.nextBtn = this.$("#nextBtn");
       this.dotsWrap= this.$("#dots");
@@ -200,13 +197,13 @@ class BerryellaProductSlider extends HTMLElement {
       this.nextBtn.addEventListener("click", () => this.next());
       this.cartBtn.addEventListener("click", () => this._emitAddToCart());
   
-      // keyboard (when focused inside component)
+      // keyboard
       this.shadowRoot.addEventListener("keydown", (e)=>{
         if (e.key === "ArrowRight") this.next();
         if (e.key === "ArrowLeft")  this.prev();
       });
   
-      // swipe/drag (FIXED: bind to .slide and ignore interactive targets)
+      // swipe/drag
       this._bindSwipe();
     }
   
@@ -276,15 +273,22 @@ class BerryellaProductSlider extends HTMLElement {
   
       const metaBits = [];
       if (item.careType) metaBits.push(`<span><b>Care type:</b> ${item.careType}</span>`);
-      if (item.price)      metaBits.push(`<span><b>Price:</b> ${item.price}</span>`);
+      if (item.price)    metaBits.push(`<span><b>Price:</b> ${item.price}</span>`);
       this.metaEl.innerHTML = metaBits.join("");
   
-      this.classBody.innerHTML = "";
-      const rows = item.classification || {};
-      Object.entries(rows).forEach(([k,v])=>{
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td class="key">${k}</td><td>${v}</td>`;
-        this.classBody.appendChild(tr);
+      // LEFT: bullets (prefer item.bullets[], else stringify item.classification{} as "Key: Value")
+      const bullets = Array.isArray(item.bullets) ? item.bullets
+        : item.classification && typeof item.classification === "object"
+          ? Object.entries(item.classification).map(([k,v]) => `${k}: ${v}`)
+          : [];
+  
+     
+      this.bulletList.innerHTML = "";
+      bullets.forEach(text=>{
+        if (text == null || text === "") return;
+        const li = document.createElement("li");
+        li.textContent = String(text);
+        this.bulletList.appendChild(li);
       });
     }
   
@@ -307,7 +311,7 @@ class BerryellaProductSlider extends HTMLElement {
   
       const onDown = (e) => {
         const target = e.target;
-        if (isInteractive(target)) return;           // let buttons/dots work normally
+        if (isInteractive(target)) return;
         if (e.button !== undefined && e.button !== 0) return; // only left mouse
         dragging = true;
         startX = (e.touches ? e.touches[0].clientX : e.clientX);
@@ -321,7 +325,6 @@ class BerryellaProductSlider extends HTMLElement {
         const dx = Math.max(-MAX_DRAG, Math.min(MAX_DRAG, x - startX));
         lastX = x;
         el.style.transform = `translateX(${dx}px)`;
-        // prevent horizontal gesture from creating a click + allow vertical page scroll
         if (e.cancelable) e.preventDefault();
       };
   
@@ -338,7 +341,6 @@ class BerryellaProductSlider extends HTMLElement {
         }
       };
   
-      // Pointer events preferred
       if (window.PointerEvent) {
         el.addEventListener("pointerdown", onDown, { passive: true });
         el.addEventListener("pointermove", onMove,   { passive: false });
@@ -346,7 +348,6 @@ class BerryellaProductSlider extends HTMLElement {
         el.addEventListener("pointercancel", onUp,   { passive: true });
         el.addEventListener("pointerleave",  onUp,   { passive: true });
       } else {
-        // Fallback
         el.addEventListener("touchstart", onDown, { passive: true });
         el.addEventListener("touchmove",  onMove, { passive: false });
         el.addEventListener("touchend",   onUp,   { passive: true });

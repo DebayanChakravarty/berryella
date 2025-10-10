@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../berryella-starter"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "FaangProjects_my_krishna_is_with_me"
+	}
+}

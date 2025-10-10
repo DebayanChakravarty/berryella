@@ -1,122 +1,427 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="night">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Berryella — Luxury, Nature‑Powered Skincare</title>
-  <meta name="description" content="Berryella crafts luxury skincare rooted in nature—botanical serums, dew‑soft moisturizers, and masks that let your skin breathe and glow." />
-  <link rel="canonical" href="https://berryella.bydeb.in//" />
-  <meta name="theme-color" content="#0c0b0b" />
+  <title>Berryella</title>
 
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="Berryella" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Berryella — Luxury, Nature‑Powered Skincare" />
-  <meta property="og:description" content="Luxury skincare created with botanicals, pure actives, and mindful design." />
-  <meta property="og:url" content="https://berryella.bydeb.in//" />
-  <meta property="og:image" content="https://berryella.bydeb.in//assets/images/og-cover.jpg" />
+  <style>
+    :root{
+      --bg:#000211; --fg:#f5f3ee; --muted:#b9b4ac; --accent:#c8a27b;
+      --shadow:0 10px 30px rgba(0,0,0,.25);
+      --max-w:1100px; --pad:16px; --radius:14px;
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Berryella — Luxury, Nature‑Powered Skincare" />
-  <meta name="twitter:description" content="Luxury skincare created with botanicals, pure actives, and mindful design." />
-  <meta name="twitter:image" content="https://berryella.bydeb.in//assets/images/og-cover.jpg" />
+      /* neon header */
+      --neon:#ff9d4d; --neon-glow:rgba(124,77,255,.45);
+      --sticky-h: 64px;
+      
 
-  <!-- Instagram (uses Open Graph); optional profile preview -->
-  <meta property="og:profile:username" content="berryella" />
+      /* Instagram gradient (ring + line) */
+  --ig-a:#fe8f8f;   /* yellow */
+  --ig-b:#eea92a;   /* pink   */
+  --ig-c:#d76828;   /* purple */
+  --ig-ring: conic-gradient(from 210deg, var(--ig-a), var(--ig-b), var(--ig-c), var(--ig-a));
+  --ig-line: linear-gradient(90deg, var(--ig-a), var(--ig-b), var(--ig-c), var(--ig-a));
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="icon" href="favicon.ico" sizes="any" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css" />
+      /* sticky footer */
+      --footer-bg:rgba(20,20,20,.85);
+      --footer-border:rgba(255,255,255,.12);
+    }
+    :root[data-theme="day"]{
+      --bg:#fbfbfb; --fg:#1b1b1b; --muted:#4a4a4a; --accent:#8f6bff;
+      --neon:#00e6ff; --neon-glow:rgba(0,230,255,.45);
+      --footer-bg:rgba(255,255,255,.9);
+      --footer-border:rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--fg);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      /* space for sticky footer */
+      padding-bottom: calc(68px + env(safe-area-inset-bottom));
+    }
+    img{display:block; max-width:100%; height:auto}
+    a{color:inherit; text-decoration:none}
+
+    /* ===== Header (non-sticky) ===== */
+   /* Header (non-sticky), Instagram gradient underline */
+.site-header{
+  position:static; z-index:10;
+  background-color: black;
+  /* background: color-mix(in oklab, var(--bg) 90%, transparent); */
+  border-bottom:none;                      /* remove old neon border */
+  box-shadow:none;                         /* we’ll glow via ::after */
+  backdrop-filter:saturate(120%) blur(6px);
+  height: 60px;
+  margin-bottom: 30px;
+}
+.site-header::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:0;
+  height:2px;
+  background: var(--ig-line);
+  /* soft glow in IG colors */
+  box-shadow:
+    0 0 14px color-mix(in oklab, var(--ig-b) 55%, transparent),
+    0 0 8px  color-mix(in oklab, var(--ig-c) 45%, transparent),
+    0 0 6px  color-mix(in oklab, var(--ig-a) 40%, transparent);
+}
+    .nav-wrap{
+      max-width:var(--max-w); margin-inline:auto; min-height:70px;
+      padding: 8px var(--pad);
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px }
+    .logo-3d{
+      --size:72px;
+      position:relative; width:var(--size); height:var(--size); border-radius:50px;
+      background:#fff; display:grid; place-items:center; overflow:hidden;
+      /* border:2px solid var(--neon); requested logo border */
+      transform: rotateX(var(--tiltX,0deg)) rotateY(var(--tiltY,0deg)) translateZ(0);
+      will-change: transform, filter;
+      box-shadow:
+        0 6px 10px rgba(0,0,0,.42),
+        0 0 0 2px color-mix(in oklab, var(--neon) 25%, transparent) inset;
+        z-index: 99999;
+    }
+    .logo-3d img{ width:92%; height:92%; object-fit:contain; }
+    @media (max-width:600px){ .logo-3d{ --size:62px; } }
+    .brand-name{ font-weight:800; letter-spacing:.4px }
+
+    main{ max-width:var(--max-w); margin:24px auto; padding-inline:var(--pad); display:grid; gap:18px }
+    .card{
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      border-radius:var(--radius); padding:18px;
+    }
+    .section{ scroll-margin-top: 90px; }
+
+    footer.site-footer{
+      max-width:var(--max-w); margin: 40px auto 0; padding: 24px var(--pad);
+      color:var(--muted); border-top:1px solid rgba(255,255,255,.1);
+    }
+
+    /* ===== Sticky footer nav ===== */
+    .sticky-footer-nav{
+      position:fixed; left:0; right:0; bottom:0; z-index:9999;
+      height:64px;
+      padding:8px max(10px,env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-right));
+      background: var(--footer-bg);
+      border-top:1px solid var(--footer-border);
+      display:grid; grid-template-columns:repeat(4,1fr); gap:8px; align-items:center;
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .sticky-footer-nav button{
+      appearance:none; border:0; background:transparent; color:var(--fg);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:4px; font:600 12px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      width:100%; height:48px; border-radius:12px; cursor:pointer;
+    }
+    .sticky-footer-nav button:hover{ background: color-mix(in oklab, var(--fg) 6%, transparent) }
+    .sticky-footer-nav button:focus-visible{ outline:2px solid var(--neon); outline-offset:2px }
+    .sticky-footer-nav svg{ width:20px; height:20px }
+    #be-cart-count{
+      position:absolute; transform: translate(8px,-10px);
+      min-width:18px; height:18px; padding:0 5px; border-radius:9px;
+      display:inline-flex; align-items:center; justify-content:center;
+      font:700 10px/1 Inter,system-ui; background:var(--neon); color:#fff;
+    }
+    .sticky-footer-nav { min-height: var(--sticky-h); }
+    /* Keep page content + footer clear of the sticky bar */
+html { scroll-padding-bottom: calc(var(--sticky-h) + 24px); }
+body { padding-bottom: calc(var(--sticky-h) + env(safe-area-inset-bottom)); }
+
+/* Ensure the footer itself sits fully above the sticky bar */
+footer, .site-footer {
+  margin-bottom: calc(var(--sticky-h) + 16px + env(safe-area-inset-bottom));
+}
+  </style>
+
+  <!-- Your web component (bullet-list version should live here) -->
+  <script type="module" src="./berryella-product-highlight/berryella-product-slider.js" defer></script>
+  <script type="module" src="./berryella-product-highlight/lux-products.js"></script>
+  <script type="module" src="./berryella-product-highlight/berryella-banner.js"></script>
+
 </head>
 <body>
-  <header class="site-header container">
-    <nav class="nav">
-      <a class="logo" href="/">Berryella</a>
-      <ul class="menu">
-        <li><a href="#products">Products</a></li>
-        <li><a href="#story">Our Story</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+  <!-- HEADER -->
+  <header class="site-header" id="header">
+    <div class="nav-wrap">
+      <a href="/" class="brand" aria-label="Berryella home">
+        <div class="logo-3d" id="logo3d">
+          <img src="./assets/images/berryella.webp" alt="Berryella logo" decoding="async" />
+        </div>
+      </a>
+      <div style="flex:1"></div>
+      <!-- (Intentionally no header user/profile block) -->
+    </div>
   </header>
 
+  <!-- CONTENT -->
   <main>
-    <section class="hero container">
-      <div class="hero-copy">
-        <h1>Where Nature Meets Luxury</h1>
-        <p>Serums and moisturizers crafted from botanical actives. Clean, elegant, effective.</p>
-        <a class="btn" href="#products">Shop the collection</a>
-      </div>
-      <picture>
-        <img src="assets/images/hero.jpg" alt="Berryella skincare with botanicals" loading="lazy">
-      </picture>
+    <script type="module" src="/js/berryella-banner.js"></script>
+    <!--overlay="linear-gradient(45deg, rgba(0,0,0,.40) 0%, rgba(0,0,0,.20) 100%)" -->
+<berryella-banner
+  height="60vh"
+  min-height="370px"
+  interval="5000"
+  autoplay="true"
+  pause-on-hover="false"
+  show-dots="false"
+  show-arrows="false"
+  show-play="false"
+  show-progress="false"
+  overlay="false"
+  data='[
+    { "video":"./assets/images/v4.mp4", "badge":"", "title":"", "subtitle":"" },
+    { "video":"./assets/images/v5.mp4", "badge":"", "title":"", "subtitle":"" },
+    { "video":"./assets/images/v7.mp4", "badge":"", "subtitle":"" }
+  ]'>
+</berryella-banner>
+
+    <berryella-product-slider
+      style="max-width:1100px;margin:auto"
+      data='[
+        {
+          "title":"Berryella Foaming Face Wash",
+          "careType":"Sun Care",
+          "price":"200",
+          "image":"./assets/images/Cream%20and%20Brown%20Minimalist%20Skincare%20Mockup%20Instagram%20Post.png",
+          "leftColor":"#2a1e2f",
+          "rightColor":"#7b3d57",
+          "badge":"New Product",
+          "classification":{
+            "20% Vitamin C Power":"Brightens, fades dark spots, and boosts glow.",
+            "Tri-Collagen Complex":"Firms skin and enhances elasticity.",
+            "Antioxidant-Rich Formula":"Protects against environmental stressors",
+            "Blueberry + Ferulic Acid":"Natural shield for youthful, radiant skin"
+          }
+        },
+        {
+          "title":"Vitamin-C",
+          "careType":"Your Hair",
+          "price":"300",
+          "image":"./assets/images/Orange%20and%20Peach%20Modern%20Minimalist%20Seasonal%20Skincare%20Tips%20Instagram%20Post.png",
+          "leftColor":"#F39F9F",
+          "rightColor":"#FFC29B",
+          "badge":"New Product",
+          "classification":{
+            "Highlight":"20% Vitamin C Power — Brightens, fades dark spots, and boosts glow."
+          }
+        },
+        {
+          "title":"Nastious Maximus",
+          "careType":"Your Face",
+          "price":"400",
+          "image":"./assets/images/Brown%20White%20Elegant%20Neutral%20Branding%20Inclusive%20Skincare%20Mockup%20Instagram%20Post.png",
+          "leftColor":"#696FC7",
+          "rightColor":"#A7AAE1",
+          "badge":"New Product",
+          "classification":{
+            "Highlight":"20% Vitamin C Power — Brightens, fades dark spots, and boosts glow."
+          }
+        }
+      ]'>
+    </berryella-product-slider>
+
+    <section class="card section" id="products">
+        <lux-products
+        title="OUR COLLECTION"
+        subtitle="Discover our meticulously crafted skincare essentials, where science meets luxury in perfect harmony"
+        float-interval="900"
+        float-max="14"
+        data='[
+          {
+            "title":"Diamond Radiance Serum",
+            "description":"Infused with diamond peptides and 24K gold for luminosity",
+            "price":185,
+            "emoji":"💎",
+            "badge":"BESTSELLER",
+            "rating":5, "reviews":127,
+            "mediaHeight":192,
+            "gradient":["#fde2e2","#f5d0fe"]
+          },
+          {
+            "title":"Platinum Hydra Complex",
+            "description":"Revolutionary moisture-binding technology with rare botanicals",
+            "price":145,
+            "emoji":"🌿",
+            "badge":"ORGANIC",
+            "rating":5, "reviews":89,
+            "mediaHeight":192,
+            "gradient":["#d1fae5","#bae6fd"]
+          },
+          {
+            "title":"Golden Hour Renewal",
+            "description":"Exclusive night treatment with rare saffron extract",
+            "price":225,
+            "emoji":"✨",
+            "badge":"LIMITED",
+            "rating":5, "reviews":156,
+            "mediaHeight":192,
+            "gradient":["#fef9c3","#fed7aa"]
+          },
+          {
+            "title":"Midnight Recovery Elixir",
+            "description":"Intensive overnight treatment with marine collagen",
+            "price":165,
+            "emoji":"🌙",
+            "badge":"PREMIUM",
+            "rating":5, "reviews":203,
+            "mediaHeight":192,
+            "gradient":["#e9d5ff","#bfdbfe"]
+          },
+          {
+            "title":"Rose Quartz Facial Oil",
+            "description":"Luxurious blend of rare botanical oils with rose quartz energy",
+            "price":195,
+            "emoji":"🌹",
+            "badge":"SIGNATURE",
+            "rating":5, "reviews":174,
+            "mediaHeight":192,
+            "gradient":["#fee2e2","#fecaca"]
+          },
+          {
+            "title":"Obsidian Purifying Mask",
+            "description":"Volcanic mineral mask with activated charcoal",
+            "price":125,
+            "emoji":"🖤",
+            "badge":"EXCLUSIVE",
+            "rating":5, "reviews":98,
+            "mediaHeight":192,
+            "gradient":["#fafaf9","#e7e5e4"]
+          }
+        ]'>
+      </lux-products>
     </section>
 
-    <section id="products" class="grid container">
-      <article class="card">
-        <img src="assets/images/product-1.jpg" alt="Botanical Radiance Serum" loading="lazy" />
-        <h3>Botanical Radiance Serum</h3>
-        <p>Vitamin-rich serum for a dewy glow.</p>
-      </article>
-      <article class="card">
-        <img src="assets/images/product-2.jpg" alt="Silk Dew Moisturizer" loading="lazy" />
-        <h3>Silk Dew Moisturizer</h3>
-        <p>Featherlight hydration with ceramides.</p>
-      </article>
-      <article class="card">
-        <img src="assets/images/product-3.jpg" alt="Midnight Calm Mask" loading="lazy" />
-        <h3>Midnight Calm Mask</h3>
-        <p>Overnight mask for bouncy morning skin.</p>
-      </article>
+    <section class="card section" id="story">
+      <h2>Our Story</h2>
+      <p>Nature → product → beauty narrative.</p>
+      <div style="height:60vh"></div>
     </section>
 
-    <section id="story" class="split container">
-      <div>
-        <h2>Our Story</h2>
-        <p>In the quiet heart of nature, beauty is born. We gather the gentlest botanicals and the purest actives to create indulgent routines that truly care for your skin.</p>
-      </div>
-      <div>
-        <img src="assets/images/story.jpg" alt="Nature-inspired skincare ritual" loading="lazy" />
-      </div>
+    <section class="card section" id="blog">
+      <h2>Blog</h2>
+      <p>Skincare tips, guides, routines.</p>
+      <div style="height:60vh"></div>
     </section>
 
-    <section id="contact" class="contact container">
-      <h2>Get in touch</h2>
-      <form name="contact" method="post" data-netlify="true">
-        <input type="hidden" name="form-name" value="contact" />
-        <label>
-          <span>Name</span>
-          <input name="name" required />
-        </label>
-        <label>
-          <span>Email</span>
-          <input name="email" type="email" required />
-        </label>
-        <label>
-          <span>Message</span>
-          <textarea name="message" rows="4" required></textarea>
-        </label>
-        <button class="btn" type="submit">Send</button>
-      </form>
+    <section class="card section" id="contact">
+      <h2>Contact</h2>
+      <p>Support, email, address.</p>
+      <div style="height:60vh"></div>
+    </section>
+
+    <section class="card section" id="shop">
+      <h2>Shop</h2>
+      <p>CTA to catalog / checkout.</p>
+      <div style="height:60vh"></div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container small">
-      <p>© <span id="y"></span> Berryella. All rights reserved.</p>
-      <nav>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-      </nav>
-    </div>
+  <footer class="site-footer" id="footer">
+    <p>&copy; 2025 Berryella. All rights reserved.</p>
   </footer>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  
+
+
+  <!-- Sticky footer nav -->
+  <nav class="sticky-footer-nav" role="navigation" aria-label="Primary">
+    <svg width="0" height="0" style="position:absolute;opacity:0" aria-hidden="true">
+      <symbol id="ico-sections" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 17h8v4h-8z"/></symbol>
+      <symbol id="ico-cart" viewBox="0 0 24 24"><path fill="currentColor" d="M7 18a2 2 0 102 2 2 2 0 00-2-2zm10 0a2 2 0 102 2 2 2 0 00-2-2zM6.21 6L5.27 4H2v2h2l3.6 7.59L6.25 17A1.5 1.5 0 007.5 19.5H19v-2H8.53l.72-1.5h7.58a2 2 0 001.79-1.11L22 7z"/></symbol>
+      <symbol id="ico-user" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4.8 4.8 0 10-4.8-4.8A4.8 4.8 0 0012 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8V22h19.2v-2.8c0-3.2-6.4-4.8-9.6-4.8z"/></symbol>
+      <symbol id="ico-moon" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></symbol>
+      <symbol id="ico-sun" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 100 14 7 7 0 000-14zM12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+    </svg>
+    <button id="be-sections" aria-label="Sections">
+      <svg aria-hidden="true"><use href="#ico-sections"/></svg><span>Sections</span>
+    </button>
+    <button id="be-cart" aria-label="Cart" style="position:relative">
+      <svg aria-hidden="true"><use href="#ico-cart"/></svg><span>Cart</span>
+      <span id="be-cart-count" aria-live="polite" aria-atomic="true">0</span>
+    </button>
+    <button id="be-user" aria-label="Account">
+      <svg aria-hidden="true"><use href="#ico-user"/></svg><span>Account</span>
+    </button>
+    <button id="be-theme" aria-label="Toggle Theme">
+      <svg id="be-theme-ico" aria-hidden="true"><use/></svg><span>Theme</span>
+    </button>
+  </nav>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    /* ===== Theme (persist) ===== */
+    (function(){
+      const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem('berryella-theme');
+      const setTheme = (t) => {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('berryella-theme', t);
+        const use = document.querySelector('#be-theme-ico use');
+        if (use) use.setAttribute('href', t === 'night' ? '#ico-sun' : '#ico-moon');
+      };
+      setTheme(saved || (prefersDark ? 'night' : 'day'));
+      document.getElementById('be-theme').addEventListener('click', ()=>{
+        setTheme(document.documentElement.getAttribute('data-theme') === 'night' ? 'day' : 'night');
+      });
+    })();
+
+    /* ===== Footer nav actions ===== */
+    (function(){
+      const cartBadge = document.getElementById('be-cart-count');
+      let cart = 0;
+      const setCart = (n)=>{ cart = Math.max(0,n); cartBadge.textContent = String(cart); };
+
+      // Smooth jump to sections block
+      document.getElementById('be-sections').addEventListener('click', ()=>{
+        const el = document.getElementById('products') || document.querySelector('main');
+        el && el.scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+
+      document.getElementById('be-cart').addEventListener('click', ()=> { location.href = '/cart'; });
+      document.getElementById('be-user').addEventListener('click', ()=> { location.href = '/account'; });
+
+      // Listen to your slider's "add-to-cart" event (bubbles)
+      document.addEventListener('add-to-cart', ()=> setCart(cart + 1));
+    })();
+
+    /* ===== Gentle 3D tilt on logo (desktop) ===== */
+    (function(){
+      const el = document.getElementById('logo3d');
+      if (!el || !matchMedia('(hover:hover)').matches) return;
+      const max = 8;
+      const tilt = (x,y)=>{ el.style.setProperty('--tiltX', x+'deg'); el.style.setProperty('--tiltY', y+'deg'); };
+      const reset = ()=> tilt(0,0);
+      el.addEventListener('mousemove', (e)=>{
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
+        const dy = (e.clientY - (r.top + r.height/2)) / (r.height/2);
+        tilt( (dy*max).toFixed(2), (-dx*max).toFixed(2) );
+      });
+      el.addEventListener('mouseleave', reset);
+    })();
+    (function () {
+  const bar = document.querySelector('.sticky-footer-nav');
+  if (!bar) return;
+  const setH = () => {
+    const h = bar.offsetHeight || 64;
+    document.documentElement.style.setProperty('--sticky-h', h + 'px');
+  };
+  // Run and keep updated
+  setH();
+  window.addEventListener('load', setH);
+  window.addEventListener('resize', setH, { passive: true });
+  window.addEventListener('orientationchange', setH, { passive: true });
+})();
   </script>
 </body>
 </html>
