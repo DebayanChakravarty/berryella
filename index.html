@@ -6,6 +6,7 @@
   <title>Berryella</title>
 
   <style>
+    
     :root{
       --bg:#000211; --fg:#f5f3ee; --muted:#b9b4ac; --accent:#c8a27b;
       --shadow:0 10px 30px rgba(0,0,0,.25);
@@ -166,7 +167,7 @@ footer, .site-footer {
 <berryella-banner
   height="60vh"
   min-height="370px"
-  interval="5000"
+  interval="4000"
   autoplay="true"
   pause-on-hover="false"
   show-dots="false"
@@ -175,56 +176,13 @@ footer, .site-footer {
   show-progress="false"
   overlay="false"
   data='[
-    { "video":"./assets/images/v4.mp4", "badge":"", "title":"", "subtitle":"" },
+    { "video":"./assets/images/v8.mp4", "badge":"", "title":"", "subtitle":"" },
     { "video":"./assets/images/v5.mp4", "badge":"", "title":"", "subtitle":"" },
     { "video":"./assets/images/v7.mp4", "badge":"", "subtitle":"" }
   ]'>
 </berryella-banner>
 
-    <berryella-product-slider
-      style="max-width:1100px;margin:auto"
-      data='[
-        {
-          "title":"Berryella Foaming Face Wash",
-          "careType":"Sun Care",
-          "price":"200",
-          "image":"./assets/images/Cream%20and%20Brown%20Minimalist%20Skincare%20Mockup%20Instagram%20Post.png",
-          "leftColor":"#2a1e2f",
-          "rightColor":"#7b3d57",
-          "badge":"New Product",
-          "classification":{
-            "20% Vitamin C Power":"Brightens, fades dark spots, and boosts glow.",
-            "Tri-Collagen Complex":"Firms skin and enhances elasticity.",
-            "Antioxidant-Rich Formula":"Protects against environmental stressors",
-            "Blueberry + Ferulic Acid":"Natural shield for youthful, radiant skin"
-          }
-        },
-        {
-          "title":"Vitamin-C",
-          "careType":"Your Hair",
-          "price":"300",
-          "image":"./assets/images/Orange%20and%20Peach%20Modern%20Minimalist%20Seasonal%20Skincare%20Tips%20Instagram%20Post.png",
-          "leftColor":"#F39F9F",
-          "rightColor":"#FFC29B",
-          "badge":"New Product",
-          "classification":{
-            "Highlight":"20% Vitamin C Power — Brightens, fades dark spots, and boosts glow."
-          }
-        },
-        {
-          "title":"Nastious Maximus",
-          "careType":"Your Face",
-          "price":"400",
-          "image":"./assets/images/Brown%20White%20Elegant%20Neutral%20Branding%20Inclusive%20Skincare%20Mockup%20Instagram%20Post.png",
-          "leftColor":"#696FC7",
-          "rightColor":"#A7AAE1",
-          "badge":"New Product",
-          "classification":{
-            "Highlight":"20% Vitamin C Power — Brightens, fades dark spots, and boosts glow."
-          }
-        }
-      ]'>
-    </berryella-product-slider>
+ 
 
     <section class="card section" id="products">
         <lux-products
@@ -296,6 +254,50 @@ footer, .site-footer {
         ]'>
       </lux-products>
     </section>
+    <berryella-product-slider
+    style="max-width:1100px;margin:auto"
+    data='[
+      {
+        "title":"Berryella Foaming Face Wash",
+        "careType":"Sun Care",
+        "price":"200",
+        "image":"./assets/images/Cream%20and%20Brown%20Minimalist%20Skincare%20Mockup%20Instagram%20Post.png",
+        "leftColor":"#2a1e2f",
+        "rightColor":"#7b3d57",
+        "badge":"New Product",
+        "classification":{
+          "20% Vitamin C Power":"Brightens, fades dark spots, and boosts glow.",
+          "Tri-Collagen Complex":"Firms skin and enhances elasticity.",
+          "Antioxidant-Rich Formula":"Protects against environmental stressors",
+          "Blueberry + Ferulic Acid":"Natural shield for youthful, radiant skin"
+        }
+      },
+      {
+        "title":"Vitamin-C",
+        "careType":"Your Hair",
+        "price":"300",
+        "image":"./assets/images/Orange%20and%20Peach%20Modern%20Minimalist%20Seasonal%20Skincare%20Tips%20Instagram%20Post.png",
+        "leftColor":"#F39F9F",
+        "rightColor":"#FFC29B",
+        "badge":"New Product",
+        "classification":{
+          "Highlight":"20% Vitamin C Power — Brightens, fades dark spots, and boosts glow."
+        }
+      },
+      {
+        "title":"Nastious Maximus",
+        "careType":"Your Face",
+        "price":"400",
+        "image":"./assets/images/Brown%20White%20Elegant%20Neutral%20Branding%20Inclusive%20Skincare%20Mockup%20Instagram%20Post.png",
+        "leftColor":"#696FC7",
+        "rightColor":"#A7AAE1",
+        "badge":"New Product",
+        "classification":{
+          "Highlight":"20% Vitamin C Power — Brightens, fades dark spots, and boosts glow."
+        }
+      }
+    ]'>
+  </berryella-product-slider>
 
     <section class="card section" id="story">
       <h2>Our Story</h2>
@@ -344,10 +346,10 @@ footer, .site-footer {
       <symbol id="ico-sun" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 100 14 7 7 0 000-14zM12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
     </svg>
     <button id="be-sections" aria-label="Sections">
-      <svg aria-hidden="true"><use href="#ico-sections"/></svg><span>Sections</span>
+      <img src="assets/images/shopping-svgrepo-com (1).svg"  style="width:25px;"alt="" aria-hidden="true" class="ico" /><span>Products</span>
     </button>
     <button id="be-cart" aria-label="Cart" style="position:relative">
-      <svg aria-hidden="true"><use href="#ico-cart"/></svg><span>Cart</span>
+      <img src="assets/images/cart-basket-for-ec-site-svgrepo-com.svg"  style="width:25px;"alt="" aria-hidden="true" class="ico" /><span>Cart</span>
       <span id="be-cart-count" aria-live="polite" aria-atomic="true">0</span>
     </button>
     <button id="be-user" aria-label="Account">
